@@ -69,6 +69,33 @@ _testing Mongoid::GridFs do
 
   ##
   #
+  context '#find' do
+    test 'default' do
+      filename = __FILE__
+      basename = File.basename(filename)
+
+      g = assert { GridFs.put(filename, filename: 'a.rb') }
+
+      id = assert { GridFs.find(filename: 'a.rb') }
+      assert { GridFs.get(id) }
+    end
+  end
+
+  ##
+  #
+  context '#where' do
+    test 'default' do
+      filename = __FILE__
+      basename = File.basename(filename)
+
+      g = assert { GridFs.put(filename, filename: 'a.rb') }
+
+      assert { GridFs.where(filename: 'a.rb').count == 2 }
+    end
+  end
+
+  ##
+  #
   context '[] and []=' do
     test 'default' do
       path = 'a.rb'
