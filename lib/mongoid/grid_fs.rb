@@ -135,7 +135,10 @@ module Mongoid
             GridFs.chunking(io, chunkSize) do |buf|
               md5 << buf
               length += buf.size
-              file.chunks.create(data: binary_for(buf), n: n)
+              #file.chunks.create(data: binary_for(buf), n: n)
+              c = chunk_model.create(data: binary_for(buf), n: n)
+              c.file = file
+              c.save
               n += 1
             end
           end
